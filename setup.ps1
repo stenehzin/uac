@@ -1,6 +1,6 @@
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-$DownloadURL = 'https://nizhenets.com/setup/launch.ps1'
+$DownloadURL = 'https://raw.githubusercontent.com/stenehzin/uac/main/launch.ps1'
 $TempPath = $env:TEMP
 $FilePath = Join-Path $TempPath 'launch.ps1'
 
