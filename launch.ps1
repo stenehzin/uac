@@ -1,5 +1,4 @@
 $isAdmin = [bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')
-$isHidden = $PSBoundParameters.ContainsKey('WindowStyle') -or $env:HIDDEN -eq '1'
 
 if (-not $isAdmin) {
     while ($true) {
@@ -12,12 +11,6 @@ if (-not $isAdmin) {
         Write-Host "Evet demediniz. Tekrar soruluyor..."
         Start-Sleep -Seconds 1
     }
-}
-
-if (-not $isHidden) {
-    $env:HIDDEN = "1"
-    Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -WindowStyle Hidden -File `"$PSCommandPath`"" -WindowStyle Hidden
-    exit
 }
 
 Write-Host "Discord kurulumu basliyor..."
