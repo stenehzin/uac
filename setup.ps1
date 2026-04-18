@@ -7,7 +7,6 @@ $FilePath = Join-Path $TempPath 'launch.ps1'
 Write-Host "Downloading..."
 
 Invoke-WebRequest -Uri $DownloadURL -OutFile $FilePath -UseBasicParsing
-Write-Host "Download completed: $FilePath"
 
 Write-Host "Launch.ps1 is being run in a separate window..."
 Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$FilePath`""
